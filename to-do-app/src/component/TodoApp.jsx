@@ -4,10 +4,16 @@ import TodoList from './TodoList';
 const TodoApp = () => {
     const [task, setTask] = useState('');
     const [toDo, setToDO] = useState([]);
+    const [filter, setFilter] = useState('all');
 
     const handleAddTask = () => {
         if (task.trim() === '') return;
-        setToDO([...toDo, task]);
+
+        const newTask = {
+            text: task,
+            completed: false,
+        };
+        setToDO([...toDo, newTask]);
         setTask('');
     };
 
@@ -15,9 +21,19 @@ const TodoApp = () => {
         const updatedList = toDo.filter((_, i) => i !== index);
         setToDO(updatedList);
     };
+    const handleComplete = (index) => {
+        const updateList = [...toDo];
+         updateList[index].completed = !updateList[index].completed;
+        setToDO(updateList);
+    }
+    const filteredToDos = toDo.filter((toDo) => {
+        if (filter === 'completed') return toDo.completed;
+        if (filter === 'incomplete') return !toDo.completed;
+        return true;
+    })
 
     return (
-        <div>
+        <div className='container'>
             <h1>Todo App</h1>
             <input
                 type='text'
@@ -27,7 +43,14 @@ const TodoApp = () => {
             />
             <button onClick={handleAddTask}>Add</button>
 
-            <TodoList toDo={toDo} onDelete={handleDelete} />
+            <div>
+                <button onClick={() => setFilter('all')}>All</button>
+                <button onClick={() => setFilter('completed')}>Completed</button>
+                <button onClick={() => setFilter('incomplete')}>Incomplete</button>
+            </div>
+
+
+            <TodoList toDo={filteredToDos} onDelete={handleDelete} onComplete={handleComplete} />
         </div>
     );
 };

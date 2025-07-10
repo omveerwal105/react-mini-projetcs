@@ -1,14 +1,20 @@
 import React from 'react';
 
-const TodoList = ({ toDo, onDelete }) => {
+const TodoList = ({ toDo, onDelete, onComplete }) => {
   return (
-    <div>
+    <div className='container'>
       <h1>Todo List</h1>
 
       {toDo.map((task, index) => (
         <div key={index}>
-          <p>{task}</p> 
+          <p style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
+            {task.text}
+          </p>
           <button onClick={() => onDelete(index)}>Delete</button>
+          <button onClick={() => onComplete(index)}>
+            {task.completed ? 'Undo' : 'Complete'}
+          </button>
+
         </div>
       ))}
     </div>
