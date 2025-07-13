@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
-const RandomUser = () => {
+const RandomUser = ({ onStyle}) => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
+
+     
 
     const fetchUser = async () => {
         try {
@@ -23,8 +25,12 @@ const RandomUser = () => {
         fetchUser();
     }, []);
 
+   
+
     return (
-        <div className='container'>
+        <div className='container d-flex justify-content-center align-items-center flex-column py-3' style={onStyle}>
+
+
             <h2 className='text-center'>Random User Data</h2>
             {loading ? (
                 <div className="text-center">

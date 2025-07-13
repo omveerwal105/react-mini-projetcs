@@ -1,10 +1,12 @@
 import React from 'react'
-import RandomUser from './component/RandomUser'
+
+import ThemeToggler from './component/ThemeToggler'
 
 const App = () => {
   return (
     <div>
-      <RandomUser />
+      
+      <ThemeToggler />
     </div>
   )
 }
