@@ -18,15 +18,15 @@ const UserFetch = () => {
             user.name.toLowerCase().includes(term) ||
             user.username.toLowerCase().includes(term)
         );
-    })|| [];
+    }) || [];
 
     const totalPages = Math.ceil(filteredUsers.length / userPerPage);
     const startIndex = (currentPage - 1) * userPerPage;
     const paginatedUsers = filteredUsers.slice(startIndex, startIndex + userPerPage);
 
     useEffect(() => {
-    setCurrentPage(1);
-  }, [debouncedSearchTerm]);
+        setCurrentPage(1);
+    }, [debouncedSearchTerm]);
 
     return (
         <div className='container text-center'>
@@ -40,7 +40,15 @@ const UserFetch = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
 
-            {loading && <p>Loading...</p>}
+            {loading &&
+                <div className="d-flex justify-content-center align-items-center my-4">
+                    <div className="spinner-border text-primary" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+
+
+            }
             {error && <p>Error fetching data: {error.message}</p>}
 
             {paginatedUsers.length > 0 ? (
