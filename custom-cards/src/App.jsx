@@ -1,26 +1,26 @@
 import React from 'react'
-import Card from './components/Card';
+import ProductList from './components/ProductList'
+import CartProvider from './context/CartContext'
+import Navbar from './components/Navbar'
+import { Route, Routes } from 'react-router-dom'
+import Cart from './Pages/Cart'
+import './App.css';
 
 const App = () => {
-  const dummy = {
-    title :"React Card",
-    description :"This is a custom card component built in React.",
-    image : "https://via.placeholder.com/300",
-  };
+  return (
+    <CartProvider>
+      <div>
 
-return (
-  <div className='container py-4'>
-    <h2 className='text-center fw-bold'>Custom Cards</h2>
+        <Navbar />
 
-  <Card
-  title={dummy.title}
-  description={dummy.description}
-  image={dummy.image}
-  onClick={() => alert("Learn More clicked!")}
-/>
+        <Routes>
+          <Route path='/' element={<ProductList />} />
+          <Route path='/cart' element={<Cart />} />
+        </Routes>
 
-  </div>
-)
+      </div>
+    </CartProvider>
+  )
 }
 
 export default App
