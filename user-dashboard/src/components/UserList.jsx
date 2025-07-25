@@ -22,15 +22,6 @@ const UserList = () => {
         setSearchUser(e.target.value);
     }
 
-    const groupedUsers = filtered.reduce((acc,user)=>{
-        const company = user.company.name;
-        if(!acc[company]){
-            acc[company] = [];
-        }
-        acc[company].push(user);
-
-        return acc;
-    },{});
 
     return (
         <div className='container d-flex flex-column mt-3'>
