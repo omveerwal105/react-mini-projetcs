@@ -1,112 +1,113 @@
-import React, { useReducer } from 'react';
+import React, { useReducer } from 'react'
 
-function reducer(state, action) {
-    switch (action.type) {
-        case 'SET_INPUT':
-            return {
-                ...state,
-                inputValue: action.payload
-            };
-        default:
-            return state;
+
+const reducerInput = (inputState , action) => {
+    switch (action.type){
+        case 'INPUT_' :
+        return {inputValue : action.payload}
+
+        case 'RESET_INPUT':
+            return {inputValue : ''}
+
+         default : 
+        return inputState;
     }
 }
 
-function taskReducer(state, action) {
-    switch (action.type) {
-        case 'ADD_TODO':
-            return [...state, { id: Date.now(), title: action.payload, completed: false }];
+const reducerTask = (taskState , action) => {
+    switch (action.type){
+        case 'ADD_TODO' : 
+        const newTask = {text : action.payload , id : Date.now() , taskCompleted : false}
+        return {tasks : [...taskState.tasks ,newTask]}
 
-        case 'DELETE_TODO':
-            return state.filter((task) => task.id !== action.payload);
+        case 'DELETE_TODO' : 
+        return {
+            ...taskState , 
+            tasks : taskState.tasks.filter((task)=>task.id !==action.payload)
+        }
 
-        case 'TOGGLE_TODO':
-            return state.map((task) =>
-                task.id === action.payload
-                    ? { ...task, completed: !task.completed }
-                    : task
-            );
-        default:
-            return state;
+        case 'TOGGLE_TASK' : 
+        return {
+            ...taskState ,
+            tasks : taskState.tasks.map((task)=>(
+                task.id === action.payload ? {...task , taskCompleted : !task.taskCompleted} : task
+            ))
+        }
+
+        default : 
+        return taskState ;
     }
 }
-
 const ToDoWithUseReducer = () => {
-    const [state, dispatch] = useReducer(reducer, { inputValue: '' });
-    const [taskState, dispatchTask] = useReducer(taskReducer, []);
+    const [inputState , dispatchInput] = useReducer(reducerInput , {inputValue : ''});
 
-    const addTask = () => {
-        if (state.inputValue.trim() === '') return;
-        dispatchTask({
-            type: 'ADD_TODO',
-            payload: state.inputValue
-        });
-        dispatch({
-            type: 'SET_INPUT',
-            payload: ''
-        });
-    };
-
-    const deleteTask = (index) => {
-        dispatchTask({
-            type: 'DELETE_TODO',
-            payload: index
-        });
-    };
-
-    const toggleTask = (index) => {
-        dispatchTask({
-            type: 'TOGGLE_TODO',
-            payload: index
-        });
-    };
+    const [taskState , dispatchTask] = useReducer(reducerTask , {tasks : []});
 
     const handleChange = (e) => {
-        dispatch({
-            type: 'SET_INPUT',
-            payload: e.target.value
-        });
-    };
+        dispatchInput({
+            type : 'INPUT_' ,
+            payload : e.target.value
+        })
+    }
 
-    return (
-        <div className='container mt-3'>
-            <div className="d-flex gap-2">
-                <input
-                    className="form-control"
-                    placeholder="Enter a task"
-                    value={state.inputValue}
-                    onChange={handleChange}
-                />
-                <button className="btn btn-primary" onClick={addTask}>
-                    Add
-                </button>
-            </div>
+    const handleAdd = () => {
+        if(inputState.inputValue.trim()===''){
+            alert ('enter the task') ; return ;
+        }
 
-            <ul className='list-group mt-4'>
-                {taskState.map((task) => (
-                    <li
-                        key={task.id}
-                        className={`list-group-item d-flex justify-content-between ${task.completed ? 'text-decoration-line-through' : ''
-                            }`}
-                    >
-                        <span
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => toggleTask(task.id)}
-                        >
-                            {task.title}
-                        </span>
+        dispatchTask({
+            type : 'ADD_TODO',
+            payload : inputState.inputValue
+        })
 
-                        <button
-                            className='btn btn-danger btn-sm'
-                            onClick={() => deleteTask(task.id)}
-                        >
-                            Delete
-                        </button>
-                    </li>
-                ))}
-            </ul>
+        dispatchInput({type : 'RESET_INPUT'})
+    }
+
+    const handleDelete = (id) => {
+        dispatchTask({
+            type : 'DELETE_TODO',
+            payload : id
+        })
+    }
+    const handleToggle = (id) => {
+        dispatchTask({
+            type : 'TOGGLE_TASK',
+            payload : id
+        })
+    }
+  return (
+    <div className='container p-4'>
+        <div >
+        <input 
+        className='form-control mt-3'
+        placeholder='enter the task'
+        value={inputState.inputValue}
+        onChange={handleChange}
+        />
+        <button className='btn btn-primary' onClick={handleAdd}>Add</button>
         </div>
-    );
-};
 
-export default ToDoWithUseReducer;
+        {taskState.tasks.length === 0 && <p className="mt-3">No tasks yet. Add one above!</p>}
+
+
+        {taskState.tasks.map((task)=>(
+            <div className='card p-2 mt-2' key={task.id}>
+                <div onClick={()=>handleToggle(task.id)}
+                style={{
+                 textDecoration: task.taskCompleted ? 'line-through' : 'none',
+
+                   cursor : 'pointer'
+                }}
+                >
+                    {task.text}
+                </div>
+            
+
+                <button className='btn btn-danger'onClick={()=>handleDelete(task.id)}>Delete</button>
+            </div>
+        ))}
+    </div>
+  )
+}
+
+export default ToDoWithUseReducer

@@ -1,30 +1,50 @@
 import React, { useReducer } from 'react'
 
-const initialSate = {count : 0};
-function reducer(state, action) {
-    switch (action.type) {
-        case 'increment':
-            return { count: state.count + 1 }
-        case 'decrement':
-            return { count: state.count - 1 }
-        case 'reset':
-            return initialSate
+
+const initialState = {count : 0};
+
+const reducer = (state , action) => {
+    switch (action.type){
+        case 'Increment':
+            return {count : state.count + 1};
+        
+        case 'Decrement' :
+            return {count : state.count - 1};
+        
+        case "Reset" :
+            return {count : 0}
+         
         default :
-        return state
+        return state ;
     }
 }
-
 const CounterWithReducer = () => {
-    const [state, dispatch] = useReducer(reducer, initialSate);
-    return (
-        <div className='container text-center'>
-            <h4>useReducer Counter </h4>
-            <p>Count : {state.count}</p>
-            <button onClick={()=>dispatch({type: 'increment'})}>++</button>
-            <button onClick={()=>dispatch({type : 'decrement'})}>--</button>
-            <button onClick={()=>dispatch({type:'reset'})}>Reset</button>
-        </div>
-    )
+    const [state , dispatch] = useReducer(reducer , initialState);
+
+    const handleIncrement = () => {
+        dispatch({
+            type : 'Increment'  
+        })
+    }
+    const handleDecrement = () => {
+        dispatch ({
+            type : 'Decrement'
+        })
+    }
+
+    const handleReset = () => {
+        dispatch({
+            type : 'Reset'
+        })
+    }
+  return (
+    <div>
+        <h2>Counter : {state.count}</h2>
+        <button onClick={handleIncrement}>++</button>
+        <button onClick={handleDecrement}>--</button>
+        <button onClick={handleReset}>Reset</button>
+    </div>
+  )
 }
 
 export default CounterWithReducer
