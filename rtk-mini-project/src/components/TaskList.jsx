@@ -21,9 +21,6 @@ const TaskList = () => {
 
     const filtered = filteredTask();
 
-
-
-
     return (
         <div className='d-flex flex-column mt-4 align-items-center'>
             <h4>Task Items:</h4>
