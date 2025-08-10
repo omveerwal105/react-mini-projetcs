@@ -11,7 +11,7 @@ const reducer = (state, action) => {
             const { task, priority } = action.payload;
             const getTimeByPriority = (p) => {
                 switch (p) {
-                    case 'HIGH': return 180;
+                    case 'HIGH': return 10;
                     case 'MEDIUM': return 300;
                     case 'LOW':
                     default: return 420;
