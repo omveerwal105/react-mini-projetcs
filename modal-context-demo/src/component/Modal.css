@@ -1,0 +1,50 @@
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease;
+}
+
+.fade-in {
+    opacity: 1;
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    min-width: 250px;
+    transition: transform 0.3s ease;
+}
+
+/* Different styles */
+.modal-content.confirm {
+  border: 2px solid red;
+}
+.modal-content.info {
+  border: 2px solid blue;
+}
+.modal-content.custom {
+  border: 2px solid green;
+}
+
+.modal-content {
+  animation: slideIn 0.3s ease-in-out;
+}
+.modal-overlay.fade-out .modal-content {
+  animation: slideOut 0.3s ease-in-out;
+}
+
+@keyframes slideOut {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-20px); opacity: 0; }
+}
+
