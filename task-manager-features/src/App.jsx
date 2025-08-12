@@ -1,9 +1,12 @@
 import React from 'react'
 import Task from './Task'
+import List from './List'
 
 const App = () => {
   return (
-    <div><Task /></div>
+    <div>
+      <List />
+    </div>
   )
 }
 
