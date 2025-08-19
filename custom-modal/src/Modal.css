@@ -1,0 +1,58 @@
+/* Overlay (full screen background) */
+.modal-overlay {
+  position: fixed;
+  inset: 0; /* shorthand for top:0, right:0, bottom:0, left:0 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  transition: opacity 0.3s ease;
+}
+
+/* Fade animations */
+.fade-in {
+  opacity: 1;
+}
+.fade-out {
+  opacity: 0;
+}
+
+/* Background dim */
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Modal box */
+.modal-content {
+  position: relative;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+  z-index: 1001;
+  transition: all 0.3s ease;
+}
+
+/* Zoom animations */
+.zoom-in {
+  transform: scale(1);
+  opacity: 1;
+}
+.zoom-out {
+  transform: scale(0.95);
+  opacity: 0;
+}
+
+/* Close button */
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
+}
